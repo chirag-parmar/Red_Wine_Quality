@@ -165,3 +165,62 @@ print("PCA(raw) Dataset Accuracy: ", pca_df_acc)
 print("PCA(normalized average) Dataset Accuracy: ", pca_max_df_acc)
 print("PCA(normalized maximum) Dataset Accuracy: ", pca_avg_df_acc)
 
+# ########################## The Drake Model (Under construction)############################
+# '''
+# Q: Why did it I name this model drake?
+# A: This model is an ensemble of two models. the first models predicts if the data point has a quality of 5 , 6 or 1.
+# where quality = 1 means that the quality is on the extreme i.e. either of (7,8) upper extreme or (3,4) lower extreme.
+# the second model then extracts those predictions that were detected as 1 and predicts the actual class (3,4,7,8). In
+# other words the method combines two models that our precise in different situations (extreme and non-extreme) and
+# according me drake is the mixture of great artists in one body. Hence, THE DRAKE MODEL.
+# '''
+# def drake_it(df_drake, Input, Output, type):
+# 	#add a key column so that we can join two tables later
+# 	df_drake['ID'] = df_drake.index + 0
+	
+# 	#prepare the data
+# 	quality_lessthan_5 = df_drake["quality"]<5
+# 	quality_morethan_6 = df_drake["quality"]>6
+# 	df_drake_extreme_train = df_drake[quality_lessthan_5 | quality_morethan_6]
+	
+# 	quality_drake = []
+# 	for q in quality:
+# 		if q < 5 or q > 6:
+# 			quality_drake.append(1)
+# 		elif q == 5:
+# 			quality_drake.append(5)
+# 		elif q == 6:
+# 			quality_drake.append(6)
+# 	if option == 1:
+# 		plt.hist(df_drake.quality_drake, bins=10, color = PALETTE[7])
+# 		plt.show()
+
+# 	df_drake['quality_drake'] = quality_drake
+
+# 	df_drake_train, df_drake_test = train_test_split(df_drake, test_size=0.2)
+# 	df_drake_predictions, dummy_acc = neuralnet_it(df_drake_train, df_drake_test, Input, "quality_drake")
+
+# 	df_drake_test["first_predictions"] = df_drake_predictions
+
+# 	#seperate out the predicted extreme cases
+# 	belongs_extreme = df_drake_test["first_predictions"] == 1
+# 	df_drake_extreme_test = df_drake_test[belongs_extreme]
+	
+# 	#train and run the second model
+# 	df_drake_extreme_predictions, dummy_acc = neuralnet_it(df_drake_extreme_train, df_drake_extreme_test, Input, Output)
+
+# 	df_drake_extreme_test["second_predictions"] = df_drake_extreme_predictions
+
+# 	#append the predictions
+# 	df_drake_test = df_drake_test.merge(df_drake_extreme_test, on='ID', how='left')
+# 	df_drake_test = df_drake_test.fillna(int(1))
+# 	df_drake_test["quality_merged"] = df_drake_test.first_predictions_x * df_drake_test.second_predictions
+# 	print("\n\n\n\n\n") 
+# 	print(accuracy_score(df_drake_test["quality_x"], df_drake_test["quality_merged"]))
+
+# drake_it(df, input_columns, "quality", "Raw Dataset")
+# drake_it(avg_df, input_columns, "quality", "Normalized(Average) Dataset")
+# drake_it(max_df, input_columns, "quality", "Normalized(Maximum) Dataset")
+# drake_it(pca_df, ["PC1", "PC2"], "quality", "PCA(raw) Dataset")
+# drake_it(pca_avg_df, column_names, "quality", "PCA(nomralized average) Dataset")
+# drake_it(pca_max_df, column_names, "quality", "PCA(nomralized maximum) Dataset")
